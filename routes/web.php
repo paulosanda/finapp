@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
            return view('banks.RegisterAccount');
         })->name('bank_account_register');
         Route::post('/create',[\App\Http\Controllers\BankAccountController::class,'create'])->name('bank_account_register_exec');
+        Route::get('/edit/{id}', [\App\Http\Controllers\BankAccountController::class,'edit'])->name('bank_account_edit');
+        Route::put('/edit/{id}', [\App\Http\Controllers\BankAccountController::class, 'update'])->name('bank_account_update');
     });
 });
 
