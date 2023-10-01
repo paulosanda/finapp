@@ -30,12 +30,13 @@ class CostCenterSeeder extends Seeder
             'Saúde',
             'Seguros',
             'Transporte',
-            'Viagens'
+            'Viagens',
+            'Outros',
         ];
         foreach ($costCenters as $costCenter) {
-           DB::table('cost_centers')->insert([
-               'cost_center_name' => $costCenter
-           ]);
+            DB::table('cost_centers')->insert([
+                'cost_center_name' => $costCenter
+            ]);
         }
     }
 }

@@ -15,4 +15,9 @@ class BankAccount extends Model
         'branch_number',
         'account_number',
     ];
+
+    public function balance()
+    {
+        return $this->hasOne(BankAccountBalance::class);
+    }
 }
