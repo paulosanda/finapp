@@ -4,7 +4,9 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
+    @php
+    $consolidate = 0;
+    @endphp
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -27,12 +29,19 @@
                                 <td class="py-2 px-4 text-white border-b border-grey-light">{{ $account->bank_name }}</td>
                                 <td class="py-2 px-4 text-white border-b border-grey-light">{{ $account->branch_number }}</td>
                                 <td class="py-2 px-4 text-white border-b border-grey-light">{{ $account->account_number }}</td>
-                                <td class="py-2 px-8 text-white border-b border-grey-light">R$ 0,00</td>
+                                <td class="py-2 px-8 text-white border-b border-grey-light">{{ formatMoney($account->balance->balance) }}</td>
                                 <td class="py-2 px-2text-white border-b border-grey-light"><a href="{{ route('bank_account_edit', ['id'=>$account->id]) }}">
-                                        <i class="fas fa-pen mr-2 text-xs"></i></a></td>
-                            </tr>
-                        @endforeach
+                                        <i class="fas fa-pen text-white mr-2 text-xs"></i></a></td>
 
+                            </tr>
+                            @php
+                            $consolidate += $account->balance->balance;
+                            @endphp
+                        @endforeach
+                            <tr class="hover:bg-grey-lighter">
+                                <td class="py-2 px-4 text-white border-b border-grey-light" colspan="3"><b>Consolidado</b></td>
+                                <td class="py-2 px-4 text-white border-b border-grey-light text-right" colspan="2">{{formatMoney($consolidate)}}</td>
+                            </tr>
 
                         </tbody>
                     </table>

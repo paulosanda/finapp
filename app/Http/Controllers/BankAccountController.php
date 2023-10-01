@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BankAccount;
+use App\Models\BankAccountBalance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,7 +11,6 @@ class BankAccountController extends Controller
 {
     public function create(Request $request): \Illuminate\Http\RedirectResponse
     {
-
         $payload = $request->validate([
             'bank_name' => ['required', 'string'],
             'branch_number' => ['required', 'string'],
@@ -18,16 +18,21 @@ class BankAccountController extends Controller
         ]);
         $payload['user_id'] = Auth::user()->id;
 
-        BankAccount::create($payload);
-        return redirect()->route('dashboard');
+        $bankAccount = BankAccount::create($payload);
 
+        BankAccountBalance::create([
+            'bank_account_id' => $bankAccount->id,
+            'balance' => $request->balance * 100,
+        ]);
+
+        return redirect()->route('dashboard');
     }
 
     public function edit($id): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $bankAccount = BankAccount::find($id);
 
-        return view('banks.EditAccount')->with('bankAccount',$bankAccount);
+        return view('banks.EditAccount')->with('bankAccount', $bankAccount);
     }
 
     public function update(Request $request, $id)
@@ -39,9 +44,9 @@ class BankAccountController extends Controller
         ]);
 
         BankAccount::where('id', $id)->update([
-           'bank_name' => $request->bank_name,
-           'branch_number' => $request->branch_number,
-           'account_number' => $request->account_number
+            'bank_name' => $request->bank_name,
+            'branch_number' => $request->branch_number,
+            'account_number' => $request->account_number
         ]);
 
         return redirect()->route('dashboard');

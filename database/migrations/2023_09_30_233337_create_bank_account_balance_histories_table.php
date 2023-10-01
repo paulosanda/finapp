@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bank_accounts', function (Blueprint $table) {
+        Schema::create('bank_account_balance_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
-            $table->string('bank_name');
-            $table->string('branch_number');
-            $table->string('account_number');
+            $table->foreignId('bank_account_balance_id')->constrained('bank_account_balances', 'id')->onDelete('cascade');
+            $table->integer('balance');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bank_accounts');
+        Schema::dropIfExists('bank_account_balance_histories');
     }
 };
