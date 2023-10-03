@@ -1,7 +1,7 @@
 <?php
 
 use Tests\TestCase;
-use App\Models\User; // Certifique-se de importar o modelo User
+use App\Models\User;
 
 it('can create a bank account when authenticated', function () {
     $user = User::factory()->create();
