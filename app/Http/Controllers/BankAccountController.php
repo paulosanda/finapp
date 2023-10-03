@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateBankAccountTransactionAction;
 use App\Models\BankAccount;
 use App\Models\BankAccountBalance;
+use App\Models\BankAccountTransaction;
+use App\Models\FinancialCenter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BankAccountController extends Controller
 {
+    public function __construct(
+        protected BankAccount $bankAccount,
+        protected BankAccountTransaction $transaction
+    ){}
     public function create(Request $request): \Illuminate\Http\RedirectResponse
     {
         $payload = $request->validate([
@@ -22,7 +29,7 @@ class BankAccountController extends Controller
 
         BankAccountBalance::create([
             'bank_account_id' => $bankAccount->id,
-            'balance' => $request->balance * 100,
+            'balance' => convertToInteger($request->balance),
         ]);
 
         return redirect()->route('dashboard');
@@ -30,7 +37,6 @@ class BankAccountController extends Controller
 
     public function edit($id): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $bankAccount = BankAccount::find($id);
 
         return view('banks.EditAccount')->with('bankAccount', $bankAccount);
     }
@@ -50,5 +56,43 @@ class BankAccountController extends Controller
         ]);
 
         return redirect()->route('dashboard');
+    }
+
+    public function transactionRegister()
+    {
+        $bankAccounts = $this->bankAccount->getByUserId(Auth::user()->id);
+        $financialCenters = FinancialCenter::all();
+
+        return view('banks.BankTransactionCreate')->with([
+            'bankAccounts' => $bankAccounts,
+            'financialCenters' => $financialCenters
+        ]);
+    }
+
+    public function transactionStore(Request $request): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        $payload = $request->validate([
+            'bank_account_id' => 'required|string',
+            'transaction_type' => 'required',
+            'efective_date' => 'required',
+            'financial_center_id' => 'required',
+            'description' => 'required',
+            'value' => 'required'
+        ]);
+
+        $transaction = app(CreateBankAccountTransactionAction::class)->exec($payload);
+
+        $todayTransactions = $this->transaction->getTodayTrasanctions($transaction->bank_account_id);
+
+        $bankAccounts = $this->bankAccount->getByUserId(Auth::user()->id);
+
+        $financialCenters = FinancialCenter::all();
+
+        return view('banks.BankTransactionCreate')->with([
+            'bankAccounts' => $bankAccounts,
+            'financialCenters' => $financialCenters,
+            'transaction' => $transaction,
+            'todayTransactions' => $todayTransactions
+        ]);
     }
 }

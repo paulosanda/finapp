@@ -13,7 +13,7 @@
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <!-- Agregar el enlace al archivo de la biblioteca FontAwesome -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/jquery.inputmask.min.js"></script>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -42,5 +42,23 @@
 
 
         </div>
+        <script>
+            console.log($('input[name="value"]')); // Verifique se o elemento está sendo selecionado corretamente
+            $(document).ready(function () {
+                // Aplica a máscara ao elemento com o name "value"
+                $('input[name="value"]').inputmask('currency', {
+                    radixPoint: ',',
+                    groupSeparator: '.',
+                    allowMinus: false, // Remova esta linha se desejar permitir valores negativos
+                    prefix: 'R$ ',
+                    autoUnmask: true
+                });
+            });
+            $(document).ready(function () {
+                console.log('Document ready'); // Verifique se o script está sendo executado
+                // Resto do seu código aqui...
+            });
+
+        </script>
     </body>
 </html>

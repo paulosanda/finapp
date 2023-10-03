@@ -49,9 +49,9 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="block p-2 hover:bg-gray-700 flex items-center">
+                            <a href="{{ route('bank_account_transaction_create') }}" class="block p-2 hover:bg-gray-700 flex items-center">
                                 <i class="fas fa-chevron-right mr-2 text-xs"></i>
-                                Gastos
+                                Registrar lançamentos
                             </a>
                         </li>
                         <li>
