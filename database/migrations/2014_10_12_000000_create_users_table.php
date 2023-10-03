@@ -20,6 +20,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->boolean('is_admin')->nullable();
+            $table->boolean('enable')->default(false);
         });
     }
 
