@@ -29,7 +29,9 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/MoneyHelper.php"
+            "app/Helpers/MoneyHelper.php",
+            "app/Helpers/ConvertToIntHelper.php",
+            "app/Helpers/EfectiveHelper.php"
         ]
     },
     "autoload-dev": {

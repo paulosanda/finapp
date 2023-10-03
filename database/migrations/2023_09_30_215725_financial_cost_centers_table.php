@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cost_centers', function (Blueprint $table) {
+        Schema::create('financial_centers', function (Blueprint $table) {
             $table->id();
-            $table->string('cost_center_name');
+            $table->enum('type', ['credit', 'debit']);
+            $table->string('financial_center_name');
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cost_centers');
+        Schema::dropIfExists('financial_centers');
     }
 };

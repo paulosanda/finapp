@@ -12,7 +12,7 @@
 
                 <div class="mt-8 dark:bg-gray-800 p-4 shadow rounded-lg">
                     <h2 class="text-white text-lg font-semibold pb-4">Contas Bancárias</h2>
-                    @if(isset($bankAccounts))
+
                     <table class="w-full table-auto text-sm">
                         <thead>
                         <tr class="text-sm leading-normal">
@@ -24,28 +24,33 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($bankAccounts as $account)
-                            <tr class="hover:bg-grey-lighter">
-                                <td class="py-2 px-4 text-white border-b border-grey-light">{{ $account->bank_name }}</td>
-                                <td class="py-2 px-4 text-white border-b border-grey-light">{{ $account->branch_number }}</td>
-                                <td class="py-2 px-4 text-white border-b border-grey-light">{{ $account->account_number }}</td>
-                                <td class="py-2 px-8 text-white border-b border-grey-light">{{ formatMoney($account->balance->balance) }}</td>
-                                <td class="py-2 px-2text-white border-b border-grey-light"><a href="{{ route('bank_account_edit', ['id'=>$account->id]) }}">
-                                        <i class="fas fa-pen text-white mr-2 text-xs"></i></a></td>
+                        @if(isset($bankAccounts))
+                            @foreach($bankAccounts as $account)
+                                <tr class="hover:bg-grey-lighter">
+                                    <td class="py-2 px-4 text-white border-b border-grey-light">{{ $account->bank_name }}</td>
+                                    <td class="py-2 px-4 text-white border-b border-grey-light">{{ $account->branch_number }}</td>
+                                    <td class="py-2 px-4 text-white border-b border-grey-light">{{ $account->account_number }}</td>
+                                    @if($account->balance != null)
+                                        <td class="py-2 px-8 text-white border-b border-grey-light">{{ formatMoney($account->balance->balance) }}</td>
+                                    @endif
+                                    <td class="py-2 px-2text-white border-b border-grey-light"><a href="{{ route('bank_account_edit', ['id'=>$account->id]) }}">
+                                            <i class="fas fa-pen text-white mr-2 text-xs"></i></a></td>
 
-                            </tr>
-                            @php
-                            $consolidate += $account->balance->balance;
-                            @endphp
-                        @endforeach
+                                </tr>
+                                @php
+                                if(isset($account->balance->balance)) {
+                                    $consolidate += $account->balance->balance;
+                                }
+                                @endphp
+                            @endforeach
                             <tr class="hover:bg-grey-lighter">
                                 <td class="py-2 px-4 text-white border-b border-grey-light" colspan="3"><b>Consolidado</b></td>
                                 <td class="py-2 px-4 text-white border-b border-grey-light text-right" colspan="2">{{formatMoney($consolidate)}}</td>
                             </tr>
-
+                        @endif
                         </tbody>
                     </table>
-                    @endif
+
                 </div>
 
         </div>
