@@ -125,7 +125,8 @@
                                 <span class="px-1 text-sm text-white">Valor</span>
                                 <input class="text-md block px-3 py-2 rounded-lg w-full bg-white border-2
                                 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white
-                                focus:border-gray-600 focus:outline-none" type="text" name="value" value="{{ old('value') }}">
+                                focus:border-gray-600 focus:outline-none" type="text" name="value" id = "campo"
+                                oninput="formatCurrency(this)" maxlength="11">
                                 @error('value')
                                 <span class="text-sm bg-red-500">Valor obrigatório</span>
                                 @enderror
@@ -168,6 +169,8 @@
                 table.style.display = "none";
             }
         }
+
+
     </script>
 
 </x-app-layout>

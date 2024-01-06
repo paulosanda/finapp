@@ -37,8 +37,9 @@ class BankAccountController extends Controller
 
     public function edit($id): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
+        $banckAccount = BankAccount::find($id);
 
-        return view('banks.EditAccount')->with('bankAccount', $bankAccount);
+        return view('banks.EditAccount')->with(['bankAccount' => $banckAccount, 'id' => $id] );
     }
 
     public function update(Request $request, $id)
@@ -58,10 +59,10 @@ class BankAccountController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function transactionRegister()
+    public function transactionRegister(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $bankAccounts = $this->bankAccount->getByUserId(Auth::user()->id);
-        $financialCenters = FinancialCenter::all();
+        $financialCenters = FinancialCenter::where('user_id', Auth::user()->id)->get();
 
         return view('banks.BankTransactionCreate')->with([
             'bankAccounts' => $bankAccounts,

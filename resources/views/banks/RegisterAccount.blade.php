@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="max-w-xl">
-                    <form method="post" action="{{ route('bank_account_register_exec') }}">
+                    <form method="post" action="{{ route('bank_account_register.store') }}">
                         @csrf
                         @error("bank_name")
                         <div class="mx-auto max-w-lg bg-red-500">
@@ -59,7 +59,8 @@
                                 <span class="px-1 text-sm text-white">Saldo inicial</span>
                                 <input placeholder="" type="text" class="text-md block px-3 py-2 rounded-lg w-full bg-white border-2
                                 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white
-                                focus:border-gray-600 focus:outline-none" name="balance">
+                                focus:border-gray-600 focus:outline-none" name="balance" id = "campo"
+                                       oninput="formatCurrency(this)" maxlength="11">
                             </div>
                             <button class="mt-3 text-lg font-semibold bg-gray-700 w-full text-white rounded-lg
             px-6 py-3 block shadow-xl hover:text-white hover:bg-black">
