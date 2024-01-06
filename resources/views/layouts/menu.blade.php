@@ -16,6 +16,12 @@
                     </div>
                     <ul class="desplegable ml-4 hidden">
                         <li>
+                            <a href="{{ route('financial_center.index') }}" class="block p-2 hover:bg-gray-700 flex items-center">
+                                <i class="fas fa-chevron-right mr-2 text-xs"></i>
+                                Tipos de lançamentos
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('profile.edit')  }} " class="block p-2 hover:bg-gray-700 flex items-center">
                                 <i class="fas fa-chevron-right mr-2 text-xs"></i>
                                 Editar

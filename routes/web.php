@@ -32,15 +32,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::group(['bank'], function() {
+    Route::prefix('bank')->group(function() {
         Route::get('/create', function (){
            return view('banks.RegisterAccount');
         })->name('bank_account_register');
-        Route::post('/create',[\App\Http\Controllers\BankAccountController::class,'create'])->name('bank_account_register_exec');
+        Route::post('/create',[\App\Http\Controllers\BankAccountController::class,'create'])->name('bank_account_register.store');
         Route::get('/edit/{id}', [\App\Http\Controllers\BankAccountController::class,'edit'])->name('bank_account_edit');
         Route::put('/edit/{id}', [\App\Http\Controllers\BankAccountController::class, 'update'])->name('bank_account_update');
         Route::get('/transactions',[\App\Http\Controllers\BankAccountController::class, 'transactionRegister'])->name('bank_account_transaction_create');
         Route::post('/transactions', [\App\Http\Controllers\BankAccountController::class, 'transactionStore'])->name('bank_account_transaction_store');
+    });
+    Route::prefix('financial-centers')->group(function () {
+        Route::get('/', [\App\Http\Controllers\FinancialCenterController::class, 'index'])->name('financial_center.index');
+        Route::post('/create', [\App\Http\Controllers\FinancialCenterController::class, 'store'])->name('financial_center.store');
+
     });
 });
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('financial_centers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users', 'id');
             $table->enum('type', ['credit', 'debit']);
             $table->string('financial_center_name');
             $table->timestamps();

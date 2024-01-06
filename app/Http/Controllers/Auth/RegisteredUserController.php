@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\FinancialCenter;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -45,6 +46,26 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        $financialCenter = new FinancialCenter();
+        $inicialFinancialCenters = $financialCenter->inicialCenter();
+
+        foreach ($inicialFinancialCenters['credit'] as $credit) {
+            $financialCenter->create([
+                'user_id' => $user->id,
+                'type' => 'credit',
+                'financial_center_name' => $credit
+            ]);
+        }
+
+        foreach ($inicialFinancialCenters['debit'] as $debit) {
+            $financialCenter->create([
+                'user_id' => $user->id,
+                'type' => 'debit',
+                'financial_center_name' => $debit
+            ]);
+        }
+
 
         return redirect(RouteServiceProvider::HOME);
     }
