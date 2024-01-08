@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FinancialCenter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class FinancialCenterController extends Controller
 {
@@ -11,15 +14,10 @@ class FinancialCenterController extends Controller
      */
     public function index()
     {
-        return view('profile.financial-center');
-    }
+        $financialCenters = FinancialCenter::where('user_id', Auth::user()->id)
+            ->orderBy('type')->orderBy('financial_center_name')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('profile.financial-center')->with(['financialCenters' => $financialCenters]);
     }
 
     /**
@@ -27,7 +25,25 @@ class FinancialCenterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $payload = $request->validate([
+           'type' => 'required|string',
+           'financial_center_name' => 'required|string'
+        ]);
+//        $payload['financial_center_name'] = strtoupper($request->financial_center_name);
+        $payload['financial_center_name'] = mb_strtoupper($request->financial_center_name, 'UTF-8');
+        $payload['user_id'] = Auth::user()->id;
+
+        $exist = FinancialCenter::where('financial_center_name', $payload['financial_center_name'])
+            ->where('type', $payload['type'])
+            ->first();
+
+        if($exist) {
+            return back()->withErrors(['erro' => 'Este tipo já existe']);
+        }
+
+        FinancialCenter::create($payload);
+
+        return redirect()->action([FinancialCenterController::class, 'index']);
     }
 
     /**

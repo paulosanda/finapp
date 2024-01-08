@@ -32,7 +32,8 @@
         "files": [
             "app/Helpers/MoneyHelper.php",
             "app/Helpers/ConvertToIntHelper.php",
-            "app/Helpers/EfectiveHelper.php"
+            "app/Helpers/EfectiveHelper.php",
+            "app/Helpers/TypeTranslate.php"
         ]
     },
     "autoload-dev": {

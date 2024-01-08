@@ -16,3 +16,4 @@ function  formatThousandsDecimal(valor) {
 
     return milhar.replace(/^0+/, '') + ',' + centavos;
 }
+
