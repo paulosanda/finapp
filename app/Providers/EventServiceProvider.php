@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Events\BankAccountBallanceCreate;
 use App\Events\BankAccountBallanceUpdate;
-use App\Listeners\BankAccountBallanceCreateListener;
-use App\Listeners\BankAccountBallanceUpdateListener;
 use App\Models\BankAccountBalance;
 use App\Observers\BankAccountBalanceObserver;
 use Illuminate\Auth\Events\Registered;
