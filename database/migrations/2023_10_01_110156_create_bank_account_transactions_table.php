@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('bank_account_id')->constrained('bank_accounts', 'id')->onDelete('cascade');
             $table->foreignId('financial_center_id')->constrained('financial_centers', 'id')->onDelete('cascade');
             $table->string('description')->nullable();
-            $table->date('efective_date');
+            $table->date('effective_date');
             $table->boolean('completed')->default(false);
             $table->integer('value');
             $table->timestamps();

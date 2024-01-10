@@ -26,4 +26,24 @@ class BankAccount extends Model
     {
         return $this->where('user_id', $userId)->get();
     }
+
+    public function setBranchNumberAttribute($value): void
+    {
+        $this->attributes['branch_number'] = encrypt($value);
+    }
+
+    public function getBranchNumberAttribute($value): string
+    {
+        return decrypt($value);
+    }
+
+    public function setAccountNumberAttribute($value): void
+    {
+        $this->attributes['account_number'] = encrypt($value);
+    }
+
+    public function getAccountNumberAttribute($value): string
+    {
+        return decrypt($value);
+    }
 }
