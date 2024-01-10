@@ -39,9 +39,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/create',[\App\Http\Controllers\BankAccountController::class,'create'])->name('bank_account_register.store');
         Route::get('/edit/{id}', [\App\Http\Controllers\BankAccountController::class,'edit'])->name('bank_account_edit');
         Route::put('/edit/{id}', [\App\Http\Controllers\BankAccountController::class, 'update'])->name('bank_account_update');
-        Route::get('/transactions',[\App\Http\Controllers\BankAccountController::class, 'transactionRegister'])->name('bank_account_transaction_create');
-        Route::post('/transactions', [\App\Http\Controllers\BankAccountController::class, 'transactionStore'])->name('bank_account_transaction_store');
     });
+    Route::prefix('transaction')->group(function (){
+        Route::get('/',[\App\Http\Controllers\BankAccountTransactionController::class, 'create'])->name('bank_account_transaction_create');
+        Route::post('/', [\App\Http\Controllers\BankAccountTransactionController::class, 'store'])->name('bank_account_transaction_store');
+    });
+
     Route::prefix('financial-centers')->group(function () {
         Route::get('/', [\App\Http\Controllers\FinancialCenterController::class, 'index'])->name('financial_center.index');
         Route::post('/create', [\App\Http\Controllers\FinancialCenterController::class, 'store'])->name('financial_center.store');

@@ -10,7 +10,7 @@ class CreateBankAccountTransactionAction
 {
     public function exec($payload): BankAccountTransaction
     {
-        if($payload['efective_date'] <= date("Y-m-d")) {
+        if ($payload['efective_date'] <= date("Y-m-d")) {
             $completed = true;
         } else {
             $completed = false;
@@ -30,23 +30,19 @@ class CreateBankAccountTransactionAction
             $transaction->save();
 
             $balanceAtualization = BankAccountBalance::where('bank_account_id', $transaction->bank_account_id)->first();
-//            dd($balanceAtualization);
-                if($transaction->type == 'credit' && $completed == true) {
-                    $balanceAtualization->balance += $transaction->value;
-                }
-                if($transaction->type == 'debit' && $completed == true) {
-                    $balanceAtualization->balance -= $transaction->value;
-                }
-            $balanceAtualization->save();
 
+            if ($transaction->type == 'credit' && $completed == true) {
+                $balanceAtualization->balance += $transaction->value;
+            }
+            if ($transaction->type == 'debit' && $completed == true) {
+                $balanceAtualization->balance -= $transaction->value;
+            }
+            $balanceAtualization->save();
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
 
         return $transaction;
-
-
     }
-
 }

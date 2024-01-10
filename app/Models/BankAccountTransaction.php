@@ -15,7 +15,7 @@ class BankAccountTransaction extends Model
         'type',
         'bank_account_id',
         'financial_center_id',
-        'efective_date',
+        'effective_date',
         'completed',
         'value',
     ];

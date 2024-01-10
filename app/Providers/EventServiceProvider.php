@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\BankAccountBallanceCreate;
+use App\Events\BankAccountBallanceUpdate;
+use App\Listeners\BankAccountBallanceCreateListener;
+use App\Listeners\BankAccountBallanceUpdateListener;
+use App\Models\BankAccountBalance;
+use App\Observers\BankAccountBalanceObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +24,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+    ];
+
+    protected $observers = [
+        BankAccountBalance::class => BankAccountBalanceObserver::class
     ];
 
     /**

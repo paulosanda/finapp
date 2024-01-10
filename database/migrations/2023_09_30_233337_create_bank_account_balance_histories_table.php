@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('bank_account_balance_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bank_account_balance_id')->constrained('bank_account_balances', 'id')->onDelete('cascade');
+            $table->foreignId('bank_account_id')->constrained('bank_accounts', 'id')->onDelete('cascade');
             $table->integer('balance');
+            $table->date('effective_date');
             $table->softDeletes();
             $table->timestamps();
         });

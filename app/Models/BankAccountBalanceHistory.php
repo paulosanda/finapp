@@ -10,7 +10,8 @@ class BankAccountBalanceHistory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'bank_account_balance_id',
-        'balance'
+        'bank_account_id',
+        'balance',
+        'effective_date'
     ];
 }
